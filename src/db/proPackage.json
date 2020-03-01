@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --mode development",        // скрипт для билдинга в режиме разработки
+    "build": "webpack --mode production",        // скрипт для билдинга в режиме продакшион
+    "watch": "webpack --mode development --watch"       // флажок watch - теперь webpack не выходит из процесса билдинга и следит за изменениями
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,58 @@
   "devDependencies": {
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11" // либа чтобы из консоли вебшторма можно было управлять webpack
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"                 // привет из прошлого - эта либа для кроссбраузерности стилей
+  }
+}
+
+// Разница между
+//webpack --mode development
+//и
+//webpack --mode production
+// Оба два встроеных режима сборки webpack
+// просто mode development  - создает неунифицированные файлы сбилденныхх файликов bundle
+// их попроще читать но весят они больше
+// mode production - создает унифицированные файлики - нихрена не понятно никаких отступов все единая строка -
+// зато весит меньше
+// как ты помнишь режим по умолчанию можно установиь в webpack.config.js
+//mode: 'development',
+
+
+{
+  "name": "webpack_course_2020",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,                                // это поле значит что наше приложение что мы пилим - будем приватным пакетом npm  и также мы удалили точку входа - и теперь наш пакет защищен от случайной нежелательной публикации - все равно ж точка входа вебпак конфиг проставлена
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alisaMedved/webpack_course_2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alisaMedved/webpack_course_2020/issues"
+  },
+  "homepage": "https://github.com/alisaMedved/webpack_course_2020#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.4.2",
+    "csv-loader": "^3.0.2",
+    "file-loader": "^5.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "papaparse": "^5.1.1",                          // лоадер для csv имеет зависимость от этой библиотеки поэтому мы обязаны были ее установить
+    "style-loader": "^1.1.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "xml-loader": "^1.2.1"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

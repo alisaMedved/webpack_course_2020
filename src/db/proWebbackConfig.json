@@ -1,0 +1,97 @@
+//const path = require('path');
+//const HTMLWebpackPlagin = require('html-webpack-plugin');
+// const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+
+
+//module.exports = {
+//  mode: 'development',                        // в каком режиме собираем в продакшн или разработки - режим сборки по умолчанию
+////  entry: './src/index.js',                    // точка входа
+//  entry: {                                      // точек входа может быть несколько - у нас вот например есть скрипт сторонний и не относящийся к приложению
+//    main: './src/index.js',
+//    analytics: './src/analytics.js'
+//  },
+//  output: {                                   // в какой файл в итоге все собрать
+////    filename: 'bundle.js',                    // имя файла
+////    filename: '[name].bundle.js',               // и укажем названия двух чанков - name - это один из многочисленных паттернов webpack  - name = ключ объекта entry
+//    filename: '[name].[contenthash].js',           // знакомьтесь еще один паттерн filename - contenthash - генерирует название исходя из контента файла - чем хорошо? у пользователя если даже закешируется название файла скрипта ничего не будет
+//    path: path.resolve(__dirname, 'dist')       // путь до файла
+//  },
+//  plugins: [                                      // плагины - правило одно - все должны быть инстанцами классов
+////    new HTMLWebpackPlagin(),                      //  плагин чтобы название изменившееся output улавливал index.html
+//    new HTMLWebpackPlagin({
+////      title: 'Webpack VVV',                         // и вот html при каждом билде создается новый с новыми названиями output-файлов - можно сюда еще и title у этого html настроить
+//      template: './src/index.html'                  //  на как файле основываться когда создаешь новый в dist - правда параметр title ячсно дело перебьет
+//    }),
+//    new CleanWebpackPlugin()                        // а этот плагин очищает старые bundle в dist
+//  ]
+//};
+
+// каждая точка входа компилится в свой отдельный chunk
+// где искать свой функционал в скомпиленном едином файле bundle - функция eval
+
+
+//const path = require('path');
+//const HTMLWebpackPlagin = require('html-webpack-plugin');
+//const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+
+module.exports = {
+//  context: 'src',                                             //указали папку в которой все из чего собирает webpack
+  context: path.resolve(__dirname, 'src'),                    // а вообще везде чтоб не было ошибок старайся указывать так
+  mode: 'development',
+  entry: {
+    main: './index.js',                                       // в честь этого везде стираем src
+    analytics: './analytics.js'                               //  в честь этого везде стираем src
+  },
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname,
+    'dist'
+    )
+  },
+  resolve: {
+    extensions: ['.js', '.json', '.png'],                      // массив расширений по умолчанию - это означает что в импортач файлов этих типов мы можем не указывать расширение - если у файла не указано расширение, вебпак, ищи какое-нибудь из этих что в этом массиве
+    alias: {
+      '@models': path.resolve(__dirname, 'src/models'),        // дабы не мучится с переделкой импортов при изменении вложенности файлов - можно делать не относительные пути относительно файла в который экспортируют что-нибудь, а абсолютный к экспортируемому чему-то
+      '@': path.resolve(__dirname, 'src'),
+    }
+  },
+  plugins: [
+    new
+    HTMLWebpackPlagin(,
+    {
+      title: 'Webpack VVV',
+      template: './index.html'                              // в честь этого везде стираем src
+    },
+    ),
+    new
+    CleanWebpackPlugin()
+  ],
+  module: {
+    rules: [                                              // массив лоадеров - каждый лоадер это сущность подключаемая к вебпаку для того чтобы он смог работать с типом файла новымб а так вебпак умеет работать только с js и json
+      {
+        test: /\.css$/,                                    //  регулярка если ты, вебпак, встретишь такую надпись в импорте файла
+        use: ['style-loader', 'css-loader']               //  лоадеры выполняются справа налево - сначала файлик css прогонится через css-loader он превратит css --> js, а затем style-loader подключит этот js в нужное место в head html
+      },
+      {
+        test: /\.(png|jpg|svg|gif)$/,                     // расширения файлов - в нашем случае картинок
+        use: ['file-loader'],                             // лоадер для работы с файлами
+      },
+      {
+        test: /\.(ttf|woff|woff2|eot)$/,                   // хороший тон не делать ешанину файлов - файлы текстов отдельно файлы картинок отдельно и т.д.
+        use: ['file-loader'],
+      },
+      {
+        test: /\.xml$/,
+        use: ['xml-loader'],                              // лоадер для файлов xml
+      },
+      {
+        test: /\.csv$/,
+        use: ['csv$-loader'],                             // лоадер для файлов csv
+      },
+      {
+        test: /\.csv$/,
+        use: ['csv-loader'],                              // лоадер для файлов csv, но этот лоадер зависит еще от библиотеки papaparse
+      }
+    ]
+  }
+};

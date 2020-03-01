@@ -7,19 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Webpack</title>
 <!--    если скрипту не нужна работас дом элементами - то его  ожно и в хеадер-->
-    <script src="analytics.js"></script>
+<!--    аналитика - это сторонний скрипт и не относится к нашему приложению-->
+<!--    <script src="../dist/analytics.bundle.js"></script>-->
 </head>
 <body>
 
 <div class="container">
     <h1>Webpack Course</h1>
+    <hr>
+    <div class="logo"></div>
 </div>
 
 <!--зачем то сначала подрубили скрипт мдельки-->
 <!--и только потом последним идет скрипт отвечающий за все приложение-->
 <!--Зачем? да чтоб без импортов содержимое модельки было доступно в index.js-->
+<!--<script src="src/Post.js"></script>-->
+<!--<script src="src/index.js"></script>-->
 
-<script src="Post.js"></script>
-<script src="index.js"></script>
+<!--мы подсоединили webpack - теперь он все сам за нас сделает-->
+<!--<script src="../dist/main.bundle.js"></script>-->
+<!--но название поменял и все файл не видно - подключить плагин для webpack html-webpack-plugin-->
+
 </body>
 </html>
